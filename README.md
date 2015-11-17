@@ -14,12 +14,18 @@ It is time to make Fred's List a little more optimized and proactive with automa
 * Pull request to the repository with the requirements met
 
 ### Normal Mode
+
+#### Travis CI and Testing
 * You must test have at least 1 test per html view and 1 test per api/verb combo (so both list and create)
 * You must pass all tests
 * Setup Travis-CI on your own fork.  It should test anything pushed to the master branch
 * Your master branch README should include the travis icon indicating the branch is passing
+
+#### Caching
 * Cache the 50 top posts view to speed it up
 * Cache at least one set of categories at a template level
+
+#### CORS
 * Add CORS headers to allow any host remote access to the api
 
 ### Hard Mode
