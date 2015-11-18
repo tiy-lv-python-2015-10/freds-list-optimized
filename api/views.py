@@ -24,7 +24,6 @@ class ListCreatePost(generics.ListCreateAPIView):
     filter_backends = (filters.SearchFilter,)
     search_fields = ('title', 'description')
 
-
     def perform_create(self, serializer):
         user = self.request.user
         serializer.save(user=user)
