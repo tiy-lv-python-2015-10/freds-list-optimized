@@ -75,7 +75,7 @@ class PostTests(APITestCase):
         fav4 = Favorite.objects.create(post=post2, user=self.user)
         fav5 = Favorite.objects.create(post=post2, user=self.user)
         fav6 = Favorite.objects.create(post=post3, user=self.user)
-        url = reverse('api_top_50_list', kwargs={'top50': 'top50'})
+        url = reverse('top_50_list', kwargs={'top50': 'top50'})
         response = self.client.get(url, {}, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['count'], 3)
