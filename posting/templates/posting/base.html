@@ -1,0 +1,17 @@
+{% load bootstrap3 %}
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Fredslist {% block title %}{% endblock %}</title>
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+</head>
+<body>
+    <div class="container">
+    {% bootstrap_messages %}
+    {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

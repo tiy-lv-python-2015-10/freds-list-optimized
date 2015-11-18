@@ -1,32 +1,50 @@
-# Fred's List Optmization
+# Fred's List Evolved
 
 ## Description
-It is time to make Fred's List a little more optimized and proactive with automated testing, caching and CORS
+While the original Fred's List works it still needs many enhancements.  Its original counterpart 
+in real life has no api and this needs to rectified.  Additionally, more features will be needed
+to round out the system
 
-## Learning Objectives
-* Understand Travis CI testing
-* Be able to add CORS headers to allow remote access to API
-* Effectively use caching to make expensive calls quicker
+## Objectives
+* Integrate with a functioning full 3rd party api
+* Create an API to suppliment an existing system
+* Use token authentication to allow users to post and update data into a system
 
 ## Details
 
-### Deliverable
-* Pull request to the repository with the requirements met
+### Deliverables
+* Pull request for django project
 
-### Normal Mode
+### Requirements
+* Tests for API calls
+* Implement all features from Normal Mode
+* No pep8 errors
+* No systems files checked in
 
-#### Travis CI and Testing
-* You must test have at least 1 test per html view and 1 test per api/verb combo (so both list and create)
-* You must pass all tests
-* Setup Travis-CI on your own fork.  It should test anything pushed to the master branch
-* Your master branch README should include the travis icon indicating the branch is passing
+## Normal Mode
 
-#### Caching
-* Cache the 50 top posts view to speed it up
-* Cache at least one set of categories at a template level
+### New features
+* Create a Best Of feature that show the top 50 most favorited posts in the past week
+* On the user account page display the current api token for the user as well as a button to regenerate it
+* Create a notification feature that will allow users to:
+	* Add/Remove notifications based on keywords to look for in title and description
+	* Will use signals to send a notification when a new post is updated with the search criteria
+* Create a search feature on the post list page that will search the title and description for any posts containing the words
+* Implement Sendgrid to handle all outgoing transactional emails
 
-#### CORS
-* Add CORS headers to allow any host remote access to the api
+### API
+* Implement a restful api using Django Rest Framework for all models in the system.
+* Ensure that users can only update and edit their own information
+* Use filters with the api to implement the search feature on the post list
+* Add endpoint that will display the top50 feature as described above
 
-### Hard Mode
-* Use coverage and coveralls and have 75% code coverage
+### Sendgrid
+This is a transactional email sender that will provide detailed reporting on emails sent.  To get going:
+* Sign up for an account (it's free)
+* Click your name drop down on the dashboard
+* Look for the API keys option
+* Add a new key (Don't forget to copy it down)
+* Now read through the documentation for your options:
+	* Official SendGrid Python Library: https://github.com/sendgrid/sendgrid-python#example
+	* DJango Library: https://github.com/elbuo8/sendgrid-django
+	* WebV2 API: https://sendgrid.com/docs/API_Reference/Web_API/index.html
