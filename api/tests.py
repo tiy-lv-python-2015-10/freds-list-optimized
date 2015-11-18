@@ -41,8 +41,8 @@ class PostTests(APITestCase):
 
     def test_create_post(self):
         url = reverse('api_post_list_create')
-        data = {'title': 'title', 'description': 'description', 'user': 'self.user', 'location': 'self.city',
-                'subcategory': 'self.subcategory'}
+        data = {'title': 'title', 'description': 'description', 'user': 'bob', 'location': 'las vegas',
+                'subcategory': 'sales'}
         self.client.force_authenticate(user=self.user)
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
