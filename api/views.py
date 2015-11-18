@@ -27,13 +27,13 @@ class ListCreatePost(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         user = self.request.user
-        serializer.save(author=user)
+        serializer.save(user=user)
 
     def get_queryset(self):
         qs = super().get_queryset()
         username = self.request.query_params.get('username', None)
         if username:
-            qs = qs.filter(author__username=username)
+            qs = qs.filter(user__username=username)
 
         keyword = self.request.query_params.get('keyword', None)
         if keyword:

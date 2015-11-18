@@ -41,7 +41,8 @@ class PostTests(APITestCase):
 
     def test_create_post(self):
         url = reverse('api_post_list_create')
-        data = {'title': 'Test1', 'description': 'Test description'}
+        data = {'title': 'title', 'description': 'description', 'user': self.user, 'location':self.city,
+                'subcategory': self.subcategory}
         self.client.force_authenticate(user=self.user)
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -75,7 +76,7 @@ class PostTests(APITestCase):
         fav4 = Favorite.objects.create(post=post2, user=self.user)
         fav5 = Favorite.objects.create(post=post2, user=self.user)
         fav6 = Favorite.objects.create(post=post3, user=self.user)
-        url = reverse('top_50_list', kwargs={'top50': 'top50'})
+        url = reverse('top_50_list')
         response = self.client.get(url, {}, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['count'], 3)
