@@ -3,18 +3,21 @@ from django.core.urlresolvers import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase, APIRequestFactory
 from api.views import ListCreatePost
-from posting.models import Post, Favorite, City, State
+from posting.models import Post, Favorite, City, State, Category, SubCategory
 
 
 class PostTests(APITestCase):
 
     def setUp(self):
+        self.category = Category.objects.create(title='SALE',)
+        self.subcategory = SubCategory.objects.create(title='sales', category=self.category)
         self.state = State.objects.create(name='Nevada', short='NV')
         self.city = City.objects.create(state=self.state, name='las vegas')
         self.user = User.objects.create_user(username='bob', email='bob@bob.com', password='password1')
 
     def test_post_list(self):
-        post = Post.objects.create(title='Title', description='Description', user=self.user, location=self.city)
+        post = Post.objects.create(title='Title', description='Description', user=self.user, location=self.city,
+                                   subcategory=self.subcategory)
         url = reverse('api_post_list_create')
         response = self.client.get(url, {}, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -23,7 +26,8 @@ class PostTests(APITestCase):
         self.assertEqual(response_post['title'], post.title)
 
     def test_post_list_request(self):
-        post = Post.objects.create(title='Title', description='Description', user=self.user, location=self.city)
+        post = Post.objects.create(title='Title', description='Description', user=self.user, location=self.city,
+                                   subcategory=self.subcategory)
         factory = APIRequestFactory()
         view = ListCreatePost.as_view()
         url = reverse('api_post_list_create')
@@ -45,9 +49,11 @@ class PostTests(APITestCase):
         self.assertEqual(self.user.id, response.data['user'])
 
     def test_list_post_username_filter(self):
-        post = Post.objects.create(title='Title', description='Description', user=self.user, location=self.city)
+        post = Post.objects.create(title='Title', description='Description', user=self.user, location=self.city,
+                                   subcategory=self.subcategory)
         user2 = User.objects.create_user(username='billy', email="billy@billy.com", password='password2')
-        post2 = Post.objects.create(title='Title2', description='Description2', user=user2, location=self.city)
+        post2 = Post.objects.create(title='Title2', description='Description2', user=user2, location=self.city,
+                                    subcategory=self.subcategory)
         url = reverse('api_post_list_create')
         response = self.client.get(url, {'username': user2.username}, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -56,10 +62,13 @@ class PostTests(APITestCase):
         self.assertEqual(post_response['user'], user2.id)
 
     def test_list_top50(self):
-        post = Post.objects.create(title='Title', description='Description', user=self.user, location=self.city)
+        post = Post.objects.create(title='Title', description='Description', user=self.user, location=self.city,
+                                   subcategory=self.subcategory)
         user2 = User.objects.create_user(username='billy', email="billy@billy.com", password='password2')
-        post2 = Post.objects.create(title='Title2', description='Description2', user=user2, location=self.city)
-        post3 = Post.objects.create(title='Title3', description='Description3', user=user2, location=self.city)
+        post2 = Post.objects.create(title='Title2', description='Description2', user=user2, location=self.city,
+                                    subcategory=self.subcategory)
+        post3 = Post.objects.create(title='Title3', description='Description3', user=user2, location=self.city,
+                                    subcategory=self.subcategory)
         fav = Favorite.objects.create(post=post, user=self.user)
         fav2 = Favorite.objects.create(post=post, user=self.user)
         fav3 = Favorite.objects.create(post=post, user=self.user)
